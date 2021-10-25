@@ -268,7 +268,11 @@ export function loadWalletKey(keypair): Keypair {
 
 export async function loadCandyProgram(walletKeyPair: Keypair, env: string) {
   // @ts-ignore
-  const solConnection = new web3.Connection(web3.clusterApiUrl(env));
+
+  // IAN QUIKNODE
+  const solConnection = new web3.Connection('https://fragrant-floral-thunder.solana-devnet.quiknode.pro/1217d3fb6d0f28e4a5e79236851306e85eaa9696/');
+
+//  const solConnection = new web3.Connection(web3.clusterApiUrl(env));
   const walletWrapper = new anchor.Wallet(walletKeyPair);
   const provider = new anchor.Provider(solConnection, walletWrapper, {
     preflightCommitment: 'recent',

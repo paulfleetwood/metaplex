@@ -642,6 +642,21 @@ programCommand('mint_one_token').action(async (directory, cmd) => {
   log.info('mint_one_token finished', tx);
 });
 
+
+programCommand('mint_2500_tokens').action(async (directory, cmd) => {
+  const { keypair, env, cacheName } = cmd.opts();
+
+  const cacheContent = loadCache(cacheName, env);
+  const configAddress = new PublicKey(cacheContent.program.config);
+
+  for (let num=0; num < 2500; num++)
+  {
+    log.info(`minting ${num}...`);
+    const tx = await mint(keypair, env, configAddress);
+    log.info('finished', tx);
+  }
+});
+
 programCommand('sign')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   .option('-m, --metadata <string>', 'base58 metadata account id')
