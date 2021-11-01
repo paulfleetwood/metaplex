@@ -282,6 +282,10 @@ export async function loadCandyProgram(walletKeyPair: Keypair, env: string) {
   // @ts-ignore
 
   // IAN QUIKNODE
+  // mainnet node
+//  const solConnection = new web3.Connection('https://green-billowing-firefly.solana-mainnet.quiknode.pro/445d41de96da2232cc03bb11e7731cca448f8da5/');
+ 
+  // devnet node
   const solConnection = new web3.Connection('https://crimson-delicate-wind.solana-devnet.quiknode.pro/4f2c6295a5d9d5b07f18e79c0554aa76b6b4250c/');
 
 //  const solConnection = new web3.Connection(web3.clusterApiUrl(env));
