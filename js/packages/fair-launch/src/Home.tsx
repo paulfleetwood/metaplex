@@ -83,6 +83,7 @@ const dialogStyles: any = (theme: Theme) =>
       color: theme.palette.grey[500],
     },
   });
+  
 
 const ValueSlider = styled(Slider)({
   color: '#C0D5FE',
@@ -143,7 +144,7 @@ const Header = (props: {
         <Typography variant="h5" style={{ fontWeight: 600 }}>
           {phaseName}
         </Typography>
-        <Typography variant="body1" color="textSecondary">
+        <Typography variant="body1" style={{color:"#ededed"}}>
           {desc}
         </Typography>
       </Grid>
@@ -169,22 +170,25 @@ function getPhase(
   const phaseTwoEnd = toDate(fairLaunch?.state.data.phaseTwoEnd)?.getTime();
   const candyMachineGoLive = toDate(candyMachine?.state.goLiveDate)?.getTime();
 
-  if (phaseOne && curr < phaseOne) {
-    return Phase.Phase0;
-  } else if (phaseOneEnd && curr <= phaseOneEnd) {
-    return Phase.Phase1;
-  } else if (phaseTwoEnd && curr <= phaseTwoEnd) {
-    return Phase.Phase2;
-  } else if (!fairLaunch?.state.phaseThreeStarted) {
-    return Phase.Lottery;
-  } else if (
-    fairLaunch?.state.phaseThreeStarted &&
-    candyMachineGoLive &&
-    curr > candyMachineGoLive
-  ) {
-    return Phase.Phase4;
-  } else if (fairLaunch?.state.phaseThreeStarted) {
-    return Phase.Phase3;
+  if (candyMachineGoLive)
+  {
+    if (phaseOne && curr < phaseOne) {
+      return Phase.Phase0;
+    } else if (phaseOneEnd && curr <= phaseOneEnd) {
+      return Phase.Phase1;
+    } else if (phaseTwoEnd && curr <= phaseTwoEnd) {
+      return Phase.Phase2;
+    } else if (!fairLaunch?.state.phaseThreeStarted) {
+      return Phase.Lottery;
+    } else if (
+      fairLaunch?.state.phaseThreeStarted &&
+      candyMachineGoLive &&
+      curr > candyMachineGoLive
+    ) {
+      return Phase.Phase4;
+    } else if (fairLaunch?.state.phaseThreeStarted) {
+      return Phase.Phase3;
+    }
   }
 
   return Phase.Unknown;
@@ -567,7 +571,7 @@ const Home = (props: HomeProps) => {
           <Link
             component="button"
             variant="body2"
-            color="textSecondary"
+            style={{color:"#ededed"}}
             align="right"
             onClick={() => {
               setAnitRugPolicyOpen(true);
@@ -636,9 +640,17 @@ const Home = (props: HomeProps) => {
                 phaseName={
                   candyMachinePredatesFairLaunch ? 'Phase 3' : 'Phase 4'
                 }
-                desc={'Candy Time 🍬 🍬 🍬'}
+                desc={'Minting Phase'}
                 date={candyMachine?.state.goLiveDate}
                 status="LIVE"
+              />
+            )}
+
+            {phase === Phase.Unknown && (
+              <Header
+                phaseName={'Loading...'}
+                desc={'Please wait...'}
+                date={fairLaunch?.state.data.phaseOneStart}
               />
             )}
 
@@ -680,6 +692,10 @@ const Home = (props: HomeProps) => {
                         </b>
                       </span>
                     )}
+                  </Typography>
+                ) : [Phase.Unknown].includes(phase) ? (
+                  <Typography>
+                    Ensure your phantom wallet is connected! 
                   </Typography>
                 ) : (
                   <Typography>
@@ -876,24 +892,26 @@ const Home = (props: HomeProps) => {
             <Grid
               container
               justifyContent="space-between"
-              color="textSecondary"
+              style={{color:"#ededed"}}
             >
-              <Link
-                component="button"
-                variant="body2"
-                color="textSecondary"
-                align="left"
-                onClick={() => {
-                  setHowToOpen(true);
-                }}
-              >
-                How this raffle works
-              </Link>
+              {/* 
+                            <Link
+                            component="button"
+                            variant="body2"
+                            style={{color:"#ededed"}}
+                            align="left"
+                            onClick={() => {
+                              setHowToOpen(true);
+                            }}
+                          >
+                            How this raffle works
+                          </Link> 
+              */}
               {fairLaunch?.ticket.data && (
                 <Link
                   component="button"
                   variant="body2"
-                  color="textSecondary"
+                  style={{color:"#ededed"}}
                   align="right"
                   onClick={() => {
                     if (
@@ -1033,7 +1051,7 @@ const Home = (props: HomeProps) => {
                 <Link
                   component="button"
                   variant="h6"
-                  color="textSecondary"
+                  style={{color:"#ededed"}}
                   onClick={() => {
                     setHowToOpen(true);
                   }}
@@ -1052,7 +1070,7 @@ const Home = (props: HomeProps) => {
                 <Typography variant="h6">
                   Phase 1 - Set the fair price:
                 </Typography>
-                <Typography gutterBottom color="textSecondary">
+                <Typography gutterBottom style={{color:"#ededed"}}>
                   Enter a bid in the range provided by the artist. The median of
                   all bids will be the "fair" price of the raffle ticket.{' '}
                   {fairLaunch?.state?.data?.fee && (
@@ -1067,7 +1085,7 @@ const Home = (props: HomeProps) => {
                   )}
                 </Typography>
                 <Typography variant="h6">Phase 2 - Grace period:</Typography>
-                <Typography gutterBottom color="textSecondary">
+                <Typography gutterBottom style={{color:"#ededed"}}>
                   If your bid was at or above the fair price, you automatically
                   get a raffle ticket at that price. There's nothing else you
                   need to do. Your excess SOL will be returned to you when the
@@ -1080,7 +1098,7 @@ const Home = (props: HomeProps) => {
                     <Typography variant="h6">
                       Phase 3 - The Candy Machine:
                     </Typography>
-                    <Typography gutterBottom color="textSecondary">
+                    <Typography gutterBottom style={{color:"#ededed"}}>
                       Everyone who got a raffle ticket at the fair price is
                       entered to win an NFT. If you win an NFT, congrats. If you
                       don’t, no worries, your SOL will go right back into your
@@ -1090,7 +1108,7 @@ const Home = (props: HomeProps) => {
                 ) : (
                   <>
                     <Typography variant="h6">Phase 3 - The Lottery:</Typography>
-                    <Typography gutterBottom color="textSecondary">
+                    <Typography gutterBottom style={{color:"#ededed"}}>
                       Everyone who got a raffle ticket at the fair price is
                       entered to win a Fair Launch Token that entitles them to
                       an NFT at a later date using a Candy Machine here. If you
@@ -1100,7 +1118,7 @@ const Home = (props: HomeProps) => {
                     <Typography variant="h6">
                       Phase 4 - The Candy Machine:
                     </Typography>
-                    <Typography gutterBottom color="textSecondary">
+                    <Typography gutterBottom style={{color:"#ededed"}}>
                       On{' '}
                       {candyMachine?.state.goLiveDate
                         ? toDate(
@@ -1137,37 +1155,34 @@ const Home = (props: HomeProps) => {
           <div style={{ margin: 20 }}>
             <Grid container direction="row" wrap="nowrap">
               <Grid container md={4} direction="column">
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="body2" style={{color:"#ededed"}}>
                   Bids
                 </Typography>
                 <Typography
                   variant="h6"
-                  color="textPrimary"
-                  style={{ fontWeight: 'bold' }}
+                  style={{color:"#FFFFFF", fontWeight: 'bold' }}
                 >
                   {fairLaunch?.state.numberTicketsSold.toNumber() || 0}
                 </Typography>
               </Grid>
               <Grid container md={4} direction="column">
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="body2" style={{color:"#ededed"}}>
                   Median bid
                 </Typography>
                 <Typography
                   variant="h6"
-                  color="textPrimary"
-                  style={{ fontWeight: 'bold' }}
+                  style={{color:"#FFFFFF", fontWeight: 'bold' }}
                 >
                   ◎ {formatNumber.format(median)}
                 </Typography>
               </Grid>
               <Grid container md={4} direction="column">
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="body2" style={{color:"#ededed"}}>
                   Total raised
                 </Typography>
                 <Typography
                   variant="h6"
-                  color="textPrimary"
-                  style={{ fontWeight: 'bold' }}
+                  style={{color:"#FFFFFF", fontWeight: 'bold' }}
                 >
                   ◎{' '}
                   {formatNumber.format(
@@ -1176,6 +1191,73 @@ const Home = (props: HomeProps) => {
                 </Typography>
               </Grid>
             </Grid>
+          </div>
+
+        </Container>
+      )}
+
+
+      {(
+        <Container style={{ position: 'relative', marginTop: 10 }}>
+                    <div style={{ margin: 40 }}>
+                <Typography variant="h6" style={{color:"#FFFFFF"}}>
+                  How this raffle works:
+                </Typography>
+                <Typography gutterBottom style={{color:"#ededed"}} >
+                  A browser with a Solana wallet like <a href="https://www.phantom.app/" target="_blank" rel="noreferrer">Phantom</a> is required. 
+                </Typography>
+                <Typography variant="h6" style={{color:"#FFFFFF", fontWeight: 'bold' }}>
+                <Typography variant="h6">
+                  Phase 1 - Set the fair price:
+                </Typography>
+                <Typography gutterBottom style={{color:"#ededed"}}>
+                  Enter a bid in the range provided. At the end of the phase, the 
+                  median of all bids will be the "fair" price of the raffle ticket.{' '}
+                        <b><u>NOTE: All bids incur a non-refundable ◎0.1 SOL
+                        fee</u></b> to discourage bots from bidding. All bid fees will be donated to charity 
+                        after the finalization of the auction. 
+                  )
+                </Typography>
+                <Typography variant="h6">Phase 2 - Grace period:</Typography>
+                <Typography gutterBottom style={{color:"#ededed"}}>
+                  If your bid was at or above the fair price, you automatically
+                  get a raffle ticket <u>at that price</u>. There's nothing else you
+                  need to do. Your excess SOL will be returned to you when the
+                  Fair Launch authority withdraws from the treasury. If your bid
+                  was below the fair price, you can still choose to opt in and bump up your bid to the fair
+                  price during this phase.
+                </Typography>
+                {candyMachinePredatesFairLaunch ? (
+                  <>
+                    <Typography variant="h6">
+                      Phase 3 - The Lottery:
+                    </Typography>
+                    <Typography gutterBottom style={{color:"#ededed"}}>
+                      Everyone who got a raffle ticket at the fair price is
+                      entered to win an NFT. If you win an NFT, congrats, you'll be able to Mint once the lottery completes! 
+                      If you didn't win, no worries, your SOL will go right back into your
+                      wallet!
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <Typography variant="h6">Phase 3 - The Lottery:</Typography>
+                    <Typography gutterBottom style={{color:"#ededed"}}>
+                      Everyone who got a raffle ticket at the fair price is
+                      entered to win a Fair Launch Token that entitles them to
+                      an NFT at a later date using a Candy Machine here. If you
+                      don’t win, no worries, your SOL will go right back into
+                      your wallet.
+                    </Typography>
+                    <Typography variant="h6">
+                      Phase 4 - The Candy Machine:
+                    </Typography>
+                    <Typography gutterBottom style={{color:"#ededed"}}>
+                      ... 
+                    </Typography>
+                  </>
+                )}
+                </Typography>
           </div>
         </Container>
       )}
