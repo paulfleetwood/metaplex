@@ -159,6 +159,10 @@ const Header = (props: {
   );
 };
 
+function shortenAddress(address: string, chars = 4): string {
+  return `${address.slice(0, chars)}...${address.slice(-chars)}`;
+}
+
 function getPhase(
   fairLaunch: FairLaunchAccount | undefined,
   candyMachine: CandyMachineAccount | undefined,
@@ -452,6 +456,7 @@ const Home = (props: HomeProps) => {
         }!`,
         severity: 'success',
       });
+      window.location.reload();
     } catch (e) {
       console.log(e);
       setIsMinting(false);
@@ -746,8 +751,8 @@ const Home = (props: HomeProps) => {
                       <Alert severity="error">
                         Your bid was below the median and was not included in
                         the raffle. You may click <em>Withdraw</em> when the
-                        raffle ends or you will be automatically issued one when
-                        the Fair Launch authority withdraws from the treasury.
+                        raffle ends, or you will be automatically issued one when
+                        Third Time, Inc withdraws from the treasury.
                       </Alert>
                     </div>
                   )}
@@ -894,19 +899,16 @@ const Home = (props: HomeProps) => {
               justifyContent="space-between"
               style={{color:"#ededed"}}
             >
-              {/* 
-                            <Link
-                            component="button"
-                            variant="body2"
-                            style={{color:"#ededed"}}
-                            align="left"
-                            onClick={() => {
-                              setHowToOpen(true);
-                            }}
-                          >
-                            How this raffle works
-                          </Link> 
-              */}
+              {anchorWallet &&
+              (
+                <Typography color="textPrimary">
+                <p>
+                  Connected Wallet:<br/> 
+                  {shortenAddress(anchorWallet.publicKey?.toBase58()) || ''}
+                </p>
+               </Typography>
+              )
+              }
               {fairLaunch?.ticket.data && (
                 <Link
                   component="button"
@@ -1204,7 +1206,7 @@ const Home = (props: HomeProps) => {
                   How this raffle works:
                 </Typography>
                 <Typography gutterBottom style={{color:"#ededed"}} >
-                  A browser with a Solana wallet like <a href="https://www.phantom.app/" target="_blank" rel="noreferrer">Phantom</a> is required. 
+                  A browser with a Solana wallet like <a href="https://www.phantom.app/" target="_blank" rel="noreferrer" style={{color:"#a16cfd"}}>Phantom</a> is required. 
                 </Typography>
                 <Typography variant="h6" style={{color:"#FFFFFF", fontWeight: 'bold' }}>
                 <Typography variant="h6">
@@ -1214,9 +1216,10 @@ const Home = (props: HomeProps) => {
                   Enter a bid in the range provided. At the end of the phase, the 
                   median of all bids will be the "fair" price of the raffle ticket.{' '}
                         <b><u>NOTE: All bids incur a non-refundable ◎0.1 SOL
-                        fee</u></b> to discourage bots from bidding. All bid fees will be donated to charity 
-                        after the finalization of the auction. 
-                  )
+                        fee</u></b> to discourage bots from bidding. All bid fees will be donated to
+                        the following charities after the finalization of the auction:<br/>
+                        - <a href="https://pdjf.org" target="_blank" rel="noreferrer" style={{color:"#a16cfd"}}>Permanently Disabled Jockeys Fund</a> (50%) <br/>
+                        - <a href="https://tca.org" target="_blank" rel="noreferrer" style={{color:"#a16cfd"}}>Thoroughbred Charities of America</a> (50%) <br/>
                 </Typography>
                 <Typography variant="h6">Phase 2 - Grace period:</Typography>
                 <Typography gutterBottom style={{color:"#ededed"}}>
