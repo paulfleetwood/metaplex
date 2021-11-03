@@ -1208,6 +1208,29 @@ const Home = (props: HomeProps) => {
         </Container>
       )}
 
+{fairLaunch && (
+        <Container
+          maxWidth="xs"
+          style={{ position: 'relative', marginTop: 10 }}
+        >
+          <div style={{ margin: 20 }}>
+            <Grid container direction="row" wrap="nowrap">
+              <Grid container md={12} direction="column">
+                <Typography variant="body2" style={{color:"#ededed"}}>
+                  Auction Details
+                </Typography>
+                <Typography
+                  variant="h6"
+                  style={{color:"#FFFFFF", fontWeight: 'bold' }}
+                >
+                  TOTAL FINE FILLIES: 2,500 
+                </Typography>
+              </Grid>
+            </Grid>
+          </div>
+
+        </Container>
+      )}
 
       {(
         <Container style={{ position: 'relative', marginTop: 10 }}>
@@ -1219,19 +1242,23 @@ const Home = (props: HomeProps) => {
                   A browser with a Solana wallet like <a href="https://www.phantom.app/" target="_blank" rel="noreferrer" style={{color:"#a16cfd"}}>Phantom</a> is required. 
                 </Typography>
                 <Typography variant="h6" style={{color:"#FFFFFF", fontWeight: 'bold' }}>
-                <Typography variant="h6">
                   Phase 1 - Set the fair price:
                 </Typography>
                 <Typography gutterBottom style={{color:"#ededed"}}>
                   Enter a bid in the range provided. At the end of the phase, the 
                   median of all bids will be the "fair" price of the raffle ticket.{' '}
-                        <b><u>NOTE: All bids incur a non-refundable ◎0.1 SOL
-                        fee</u></b> to discourage bots from bidding. All bid fees will be donated to
-                        the following charities after the finalization of the auction:<br/>
-                        - <a href="https://pdjf.org" target="_blank" rel="noreferrer" style={{color:"#a16cfd"}}>Permanently Disabled Jockeys Fund</a> (50%) <br/>
-                        - <a href="https://tca.org" target="_blank" rel="noreferrer" style={{color:"#a16cfd"}}>Thoroughbred Charities of America</a> (50%) <br/>
                 </Typography>
-                <Typography variant="h6">Phase 2 - Grace period:</Typography>
+                <Typography gutterBottom style={{color:"#ffef99"}} >
+                  <b>Bidding Strategy</b>: Bidding at the absolute minimum (0.5 SOL) brings down the median price of the bid. This means more people will enter into the raffle, thus possibly reducing 
+                  your chance of a winning raffle ticket. Bidding a higher price brings UP the median price, which costs more, but prices out lower bidding players, hypothetically 
+                  increasing your chance of a winning raffle ticket.
+                </Typography>
+                <Typography gutterBottom style={{color:"#ededed"}} >
+                <b><u>NOTE: All bids incur a non-refundable ◎0.1 SOL fee</u></b> to discourage bots from bidding. 
+                </Typography>
+                <Typography variant="h6" style={{color:"#FFFFFF"}}>
+                  Phase 2 - Grace period:
+                  </Typography>
                 <Typography gutterBottom style={{color:"#ededed"}}>
                   If your bid was at or above the fair price, you automatically
                   get a raffle ticket <u>at that price</u>. There's nothing else you
@@ -1242,7 +1269,7 @@ const Home = (props: HomeProps) => {
                 </Typography>
                 {candyMachinePredatesFairLaunch ? (
                   <>
-                    <Typography variant="h6">
+                <Typography variant="h6" style={{color:"#FFFFFF"}}>
                       Phase 3 - The Lottery:
                     </Typography>
                     <Typography gutterBottom style={{color:"#ededed"}}>
@@ -1254,7 +1281,9 @@ const Home = (props: HomeProps) => {
                   </>
                 ) : (
                   <>
-                    <Typography variant="h6">Phase 3 - The Lottery:</Typography>
+                    <Typography variant="h6" style={{color:"#FFFFFF"}}>
+                      Phase 3 - The Lottery:
+                      </Typography>
                     <Typography gutterBottom style={{color:"#ededed"}}>
                       Everyone who got a raffle ticket at the fair price is
                       entered to win a Fair Launch Token that entitles them to
@@ -1263,13 +1292,17 @@ const Home = (props: HomeProps) => {
                       your wallet.
                     </Typography>
                     <Typography variant="h6">
-                      Phase 4 - The Candy Machine:
+                      
                     </Typography>
                     <Typography gutterBottom style={{color:"#ededed"}}>
-                      ... 
+                       
                     </Typography>
                   </>
                 )}
+                <Typography gutterBottom style={{color:"#ededed"}}>
+                      Note: All of the collected 0.1 SOL bid fees will be donated to the following charities after the finalization of the auction:<br/>
+                        - <a href="https://pdjf.org" target="_blank" rel="noreferrer" style={{color:"#a16cfd"}}>Permanently Disabled Jockeys Fund</a> (50%) <br/>
+                        - <a href="https://tca.org" target="_blank" rel="noreferrer" style={{color:"#a16cfd"}}>Thoroughbred Charities of America</a> (50%) <br/>
                 </Typography>
           </div>
         </Container>
