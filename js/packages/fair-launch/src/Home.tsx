@@ -457,7 +457,11 @@ const Home = (props: HomeProps) => {
     console.log('deposit');
     setIsMinting(true);
     try {
-      await purchaseTicket(contributed, anchorWallet, fairLaunch);
+      let bidAmount = contributed;
+      if (bidAmount === 0) {
+        bidAmount = .5
+      }
+      await purchaseTicket(bidAmount, anchorWallet, fairLaunch);
       setIsMinting(false);
       setAlertState({
         open: true,
