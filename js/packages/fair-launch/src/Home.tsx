@@ -149,11 +149,21 @@ const Header = (props: {
         </Typography>
       </Grid>
       <Grid xs={6} container justifyContent="flex-end">
-        <PhaseCountdown
-          date={toDate(date)}
-          style={{ justifyContent: 'flex-end' }}
-          status={status || 'COMPLETE'}
-        />
+      <PhaseCountdown
+        date={toDate(date)}
+        style={{ justifyContent: 'flex-end' }}
+        status={status || 'COMPLETE'}
+        onComplete={(
+            () => {
+              if (phaseName === 'Phase 0' ||
+                  phaseName === 'Phase 1' ||
+                  phaseName === 'Phase 2' ||
+                  phaseName === 'Phase 3') {
+                window.location.reload();
+              }
+            }
+        )}
+      />
       </Grid>
     </Grid>
   );
